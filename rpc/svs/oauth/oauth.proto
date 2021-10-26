@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package oauth;
+
+// 验证手机号是否注册过
+message UserCenterValidatePhoneReq {
+  string code = 1;
+  string phone = 2;
+}
+
+message UserCenterValidatePhoneResp {
+  bool success = 1;
+}
+
+// 发送验证码
+message UserCenterSendCodeReq {
+  string area_code = 1;
+  string phone = 2;
+  string language_code = 3;
+  string user_id = 4;
+  int64 smsBusiness_type = 5;
+}
+
+message UserCenterSendCodeResp {
+  int64  code = 1;
+  string msg = 2;
+  bool   success = 3;
+  SendCodeDataResp data = 4;
+}
+
+message SendCodeDataResp {
+  bool   succeed = 1;
+  string message = 2;
+  SendCodeDataResultResp result = 3;
+
+}
+
+message SendCodeDataResultResp {
+  string requestid = 1;
+
+}
+
+//user start---------------------
+message LoginReq {
+  string user_name = 1;
+  string password = 2;
+}
+
+message loginResp {
+  string status = 1;
+  string currentAuthority = 2;
+  int64 id = 3;
+  string userName = 4;
+  string AccessToken = 5;
+  int64 AccessExpire = 6;
+  int64 RefreshAfter = 7;
+}
+
+service Oauth {
+  // Login 登录
+  rpc Login(LoginReq) returns(loginResp);
+  // 验证手机号是否注册过
+  rpc UserCenterValidatePhone(UserCenterValidatePhoneReq) returns(UserCenterValidatePhoneResp);
+  // 发送验证码
+  rpc UserCenterSendCode(UserCenterSendCodeReq) returns(UserCenterSendCodeResp);
+}

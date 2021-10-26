@@ -1,0 +1,27 @@
+type (
+    addUserReq struct {
+            Mobile string `json:"mobile"`
+            Name string `json:"name"`
+            NickName string `json:"nickName"`
+            IsAdmin int64 `json:"isAdmin"`
+    }
+    addUserResp struct {
+        Code int64 `json:"code"`
+        Message string `json:"message"`
+        Data addUserRespData `json:"data"`
+    }
+
+    addUserRespData struct {
+        Code int64  `json:"code"`
+        Message string `json:"message"`
+    }
+)
+
+@server(
+    jwt: Auth
+)
+service wikifx-trade-contest-api {
+
+    @handler UserAdd
+    post /api/v1/user/add (addUserReq) returns (addUserResp)
+}

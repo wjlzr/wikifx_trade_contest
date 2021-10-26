@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package sys;
+
+message InfoReq {
+  int64 UserId = 1;
+}
+
+message InfoResp {
+  string avatar = 1;
+  string name = 2;
+}
+
+message UserAddReq {
+  string mobile = 1;
+  string name = 2;
+  string nick_name = 3;
+  int64 is_admin = 4;
+}
+
+message UserListReq {
+  int64 current = 1;
+  int64 pageSize = 2;
+  string name = 3;
+  string nick_name = 4;
+  string mobile = 5;
+  string email = 6;
+  int64 status = 7;
+  int64 dept_id = 8;
+}
+
+message UserListResp {
+  int64 total = 1;
+  repeated  UserListData list = 2;
+}
+
+message UserListData{
+  int64 id = 1;
+  string name = 2;
+  string nick_name = 3;
+  string avatar = 4;
+  string password = 5;
+  string salt = 6;
+  string email = 7;
+  string mobile = 8;
+  int64 status = 9;
+  int64 dept_id = 10;
+  string create_by = 11;
+  string create_time = 12;
+  string last_update_by = 13;
+  string last_update_time = 14;
+  int64 del_flag = 15;
+  int64 job_id = 16;
+  int64 role_id = 17;
+  string role_name = 18;
+  string job_name = 19;
+  string dept_name = 20;
+}
+
+message UserAddResp {
+  string name = 1;
+  string nick_name = 2;
+  string mobile = 3;
+  int64 id = 4;
+  int64 is_admin = 5;
+}
+
+message UserUpdateReq {
+  int64 id = 1;
+  string email = 2;
+  string mobile = 3;
+  string name = 4;
+  string nick_name = 5;
+  string avatar = 6;
+  int64 dept_id = 7;
+  string last_update_by = 8;
+  int64 role_id = 9;
+  int64 status = 10;
+  int64 job_id = 11;
+  int64 is_admin = 12;
+}
+
+message UserUpdateResp {
+  string pong = 1;
+}
+
+message UserDeleteReq {
+  int64 id = 1;
+}
+
+message UserDeleteResp {
+  string pong = 1;
+}
+
+// 强加个error
+message I18nErrorReq {
+  string code = 1;
+  string lang = 2;
+}
+
+message I18nErrorResp {
+  string result = 1;
+}
+
+
+service Sys {
+  // 获取用户信息
+  rpc UserInfo(InfoReq) returns(InfoResp);
+  // 用户新增
+  rpc UserAdd(UserAddReq) returns(UserAddResp);
+  // 用户列表
+  rpc UserList(UserListReq) returns(UserListResp);
+  // 用户更新
+  rpc UserUpdate(UserUpdateReq) returns(UserUpdateResp);
+  // 用户删除
+  rpc UserDelete(UserDeleteReq) returns(UserDeleteResp);
+
+  // todo 后期改进
+  rpc GetError(I18nErrorReq) returns(I18nErrorResp);
+}

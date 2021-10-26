@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  oauth:
+    build:
+      context: .
+      dockerfile: rpc/svs/oauth/Dockerfile
+    ports:
+      - "8889:8889"
+    container_name: "micro-svs-oauth"
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /docker/logs:/app/logs
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    depends_on:
+      - oauth
+    ports:
+      - "8888:8888"
+    container_name: "micro-api"
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /docker/logs:/app/logs

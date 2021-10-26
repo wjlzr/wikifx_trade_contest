@@ -1,0 +1,32 @@
+info(
+    title: "wikifx-trade-contest"
+    desc: "wikifx-trade-contest"
+    author: "wei"
+    email: "wei@wikiglobal.com"
+)
+
+type (
+    loginReq struct {
+        UserName string `json:"userName"`
+        Password string `json:"password"`
+    }
+
+    loginResp struct {
+        Code string `json:"code"`
+        Msg string `json:"msg"`
+        Data loginDataResp `json:"data"`
+    }
+
+    loginDataResp struct {
+        Id int64 `json:"id"`
+        UserName string `json:"userName"`
+        AccessToken string `json:"token"`
+        AccessExpire int64 `json:"accessExpire"`
+        RefreshAfter int64 `json:"refreshAfter"`
+    }
+)
+
+service wikifx-trade-contest-api {
+    @handler Login
+    post /api/v1/oauth/login (loginReq) returns (loginResp)
+}
